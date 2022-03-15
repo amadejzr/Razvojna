@@ -42,14 +42,20 @@ class _UsersScreenState extends State<UsersScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(child: _searchBar()),
-                Container(
-                  child: MaterialButton(
-                    onPressed: () {
-                      this.initState();
-                    },
-                    child: Icon(Icons.refresh),
-                  ),
-                )
+                MaterialButton(
+                  onPressed: () {
+                    RetrieveData().fetchUsers().then((value) {
+                      setState(() {
+                        users = <Users>[];
+                        display = <Users>[];
+                        loading = false;
+                        users.addAll(value);
+                        display = users;
+                      });
+                    });
+                  },
+                  child: Icon(Icons.refresh),
+                ),
               ],
             ),
             ListView.builder(
