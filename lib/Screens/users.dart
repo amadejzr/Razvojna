@@ -60,7 +60,7 @@ class _UsersScreenState extends State<UsersScreen> {
                           });
                         });
                       },
-                      child: Icon(Icons.refresh),
+                      child: const Icon(Icons.refresh),
                     ),
                   ],
                 ),
@@ -101,14 +101,38 @@ class _UsersScreenState extends State<UsersScreen> {
     return Card(
       child: Padding(
         padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              display[index].firstName! + " " + display[index].lastName!,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  display[index].firstName! + " " + display[index].lastName!,
+                ),
+                Text(
+                  display[index].email ?? 'Null',
+                )
+              ],
             ),
-            Text(
-              display[index].email ?? 'Null',
+            MaterialButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                          content: Stack(children: <Widget>[
+                        Positioned(
+                          right: -40.0,
+                          top: -40.0,
+                          child: Text("haha"),
+                        )
+                      ]));
+                    });
+                print(display[index].email);
+              },
+              child: const Text("Odsotnost"),
+              color: Colors.blue,
             )
           ],
         ),
