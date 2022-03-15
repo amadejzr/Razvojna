@@ -25,7 +25,6 @@ class MyHttpService {
       prefs.setString('expires_in', decoded['expires_in'].toString());
     } else {
       throw Exception('Failed');
-      print("haha");
     }
   }
 }
