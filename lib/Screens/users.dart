@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+
 import 'package:razvojna/models/users.dart';
 import 'package:razvojna/service/retrieve_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UsersScreen extends StatefulWidget {
   const UsersScreen({Key? key}) : super(key: key);
@@ -14,10 +13,9 @@ class UsersScreen extends StatefulWidget {
 class _UsersScreenState extends State<UsersScreen> {
   List<Users> users = <Users>[];
   List<Users> display = <Users>[];
-
   bool loading = true;
 
-  @override
+  /*@override
   void initState() {
     RetrieveData().fetchUsers().then((value) {
       setState(() {
@@ -29,6 +27,7 @@ class _UsersScreenState extends State<UsersScreen> {
 
     super.initState();
   }
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +35,12 @@ class _UsersScreenState extends State<UsersScreen> {
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
-              print("Add user");
+              _showModalBottomSheet(context);
             }),
         body: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: SingleChildScrollView(
-            physics: ScrollPhysics(),
+            physics: const ScrollPhysics(),
             child: Column(
               children: <Widget>[
                 Row(
@@ -71,7 +70,7 @@ class _UsersScreenState extends State<UsersScreen> {
                     if (!loading) {
                       return _listItem(index);
                     } else {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                   },
                   itemCount: display.length,
@@ -84,7 +83,7 @@ class _UsersScreenState extends State<UsersScreen> {
 
   _searchBar() {
     return TextField(
-      decoration: InputDecoration(hintText: 'Search'),
+      decoration: const InputDecoration(hintText: 'Search'),
       onChanged: (text) {
         text = text.toLowerCase();
         setState(() {
@@ -100,7 +99,7 @@ class _UsersScreenState extends State<UsersScreen> {
   _listItem(index) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -117,18 +116,6 @@ class _UsersScreenState extends State<UsersScreen> {
             ),
             MaterialButton(
               onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                          content: Stack(children: <Widget>[
-                        Positioned(
-                          right: -40.0,
-                          top: -40.0,
-                          child: Text("haha"),
-                        )
-                      ]));
-                    });
                 print(display[index].email);
               },
               child: const Text("Odsotnost"),
@@ -139,4 +126,53 @@ class _UsersScreenState extends State<UsersScreen> {
       ),
     );
   }
+}
+
+_showModalBottomSheet(context) {
+  Size size = MediaQuery.of(context).size;
+  final TextEditingController firstEditing = TextEditingController();
+  final TextEditingController lastEditing = TextEditingController();
+  final TextEditingController emailEditing = TextEditingController();
+
+  showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (builder) => Container(
+            height: size.height * 0.8,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30)),
+                color: Colors.white),
+            child: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  TextField(
+                    decoration: const InputDecoration(hintText: "First name"),
+                    controller: firstEditing,
+                  ),
+                  TextField(
+                    decoration: const InputDecoration(hintText: "Last name"),
+                    controller: lastEditing,
+                  ),
+                  TextField(
+                    decoration: const InputDecoration(hintText: "Email"),
+                    controller: emailEditing,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  MaterialButton(
+                    onPressed: () {},
+                    color: Colors.blue,
+                    child: const Text("Add user"),
+                  )
+                ],
+              ),
+            ),
+          ));
 }

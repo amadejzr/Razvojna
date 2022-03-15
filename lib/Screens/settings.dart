@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:razvojna/Screens/users.dart';
+
 import 'package:razvojna/service/httptoken.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,7 +16,7 @@ class _SettingsState extends State<Settings> {
 
   void clear() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.clear().then((value) => print('sucess'));
+    prefs.clear().then((value) => print('success'));
   }
 
   @override

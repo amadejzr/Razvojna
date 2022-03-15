@@ -11,9 +11,9 @@ class RetrieveData {
 
   Future<String> getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String access_token = prefs.getString('access_token').toString();
+    final String accessToken = prefs.getString('access_token').toString();
 
-    return access_token;
+    return accessToken;
   }
 
   /*Map<String, String> get requestHeaders =>
