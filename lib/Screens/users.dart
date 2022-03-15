@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:razvojna/Screens/odsotnost.dart';
+
 import 'package:razvojna/models/users.dart';
 import 'package:razvojna/service/retrieve_data.dart';
 
@@ -116,7 +118,14 @@ class _UsersScreenState extends State<UsersScreen> {
             ),
             MaterialButton(
               onPressed: () {
-                print(display[index].email);
+                String id = display[index].id!;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Odsotnost(
+                            uid: id,
+                          )),
+                );
               },
               child: const Text("Odsotnost"),
               color: Colors.blue,
