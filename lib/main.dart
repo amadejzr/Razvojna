@@ -30,6 +30,10 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
+/*IndexedStack(
+        index: currentIndex,
+        children: screens,
+      ), */
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
   final screens = const [Settings(), UsersScreen(), Hehe()];
@@ -37,10 +41,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Razvojna naloga')),
-      body: IndexedStack(
-        index: currentIndex,
-        children: screens,
-      ),
+      body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (index) => setState(() {

@@ -15,12 +15,13 @@ class _UsersScreenState extends State<UsersScreen> {
   List<Users> users = <Users>[];
   List<Users> display = <Users>[];
 
+  bool loading = true;
+
   @override
   void initState() {
-    // TODO: implement initState
     RetrieveData().fetchUsers().then((value) {
       setState(() {
-        List<Users> users = <Users>[];
+        loading = false;
         users.addAll(value);
         display = users;
       });
@@ -31,27 +32,56 @@ class _UsersScreenState extends State<UsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        if (display.isNotEmpty) {
-          return _listItem(index);
-        } else {
-          return Center(
-            child: MaterialButton(
-              child: Text("test"),
-              onPressed: () {
-                RetrieveData().fetchUsers().then((value) {
-                  users.addAll(value);
-                  display = users;
-                });
-
-                print(display);
-              },
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(child: _searchBar()),
+                Container(
+                  child: MaterialButton(
+                    onPressed: () {
+                      this.initState();
+                    },
+                    child: Icon(Icons.refresh),
+                  ),
+                )
+              ],
             ),
-          );
-        }
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                if (!loading) {
+                  return _listItem(index);
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+              itemCount: display.length,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _searchBar() {
+    return TextField(
+      decoration: InputDecoration(hintText: 'Search'),
+      onChanged: (text) {
+        text = text.toLowerCase();
+        setState(() {
+          display = users.where((element) {
+            var firstname = element.firstName!.toLowerCase();
+            return firstname.contains(text);
+          }).toList();
+        });
       },
-      itemCount: display.length,
     );
   }
 
