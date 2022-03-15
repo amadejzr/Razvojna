@@ -2,14 +2,14 @@ class Users {
   String? id;
   String? firstName;
   String? lastName;
-  Null? middleName;
+  String? middleName;
   String? fullName;
-  Null? birthDate;
-  Null? address;
-  Null? city;
-  Null? state;
-  Null? phone;
-  Null? mobile;
+  DateTime? birthDate;
+  String? address;
+  String? city;
+  String? state;
+  int? phone;
+  int? mobile;
   String? email;
   String? gender;
 
@@ -47,19 +47,19 @@ class Users {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Id'] = this.id;
-    data['FirstName'] = this.firstName;
-    data['LastName'] = this.lastName;
-    data['MiddleName'] = this.middleName;
-    data['FullName'] = this.fullName;
-    data['BirthDate'] = this.birthDate;
-    data['Address'] = this.address;
-    data['City'] = this.city;
-    data['State'] = this.state;
-    data['Phone'] = this.phone;
-    data['Mobile'] = this.mobile;
-    data['Email'] = this.email;
-    data['Gender'] = this.gender;
+    data['Id'] = id;
+    data['FirstName'] = firstName;
+    data['LastName'] = lastName;
+    data['FullName'] = fullName;
+    data['MiddleName'] = middleName;
+    data['BirthDate'] = birthDate;
+    data['Address'] = address;
+    data['City'] = city;
+    data['State'] = state;
+    data['Phone'] = phone;
+    data['Mobile'] = mobile;
+    data['Email'] = email;
+    data['Gender'] = gender;
 
     return data;
   }

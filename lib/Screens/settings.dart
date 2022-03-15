@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:razvojna/Screens/users.dart';
 import 'package:razvojna/service/httptoken.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -12,6 +13,11 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   final TextEditingController id = TextEditingController();
   final TextEditingController secret = TextEditingController();
+
+  void clear() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear().then((value) => print('sucess'));
+  }
 
   @override
   Widget build(BuildContext context) {

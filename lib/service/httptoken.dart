@@ -21,8 +21,9 @@ class MyHttpService {
     var decoded = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      prefs.setString('access_token', decoded['access_token'].toString());
+      prefs.setString('access_token', decoded['access_token']);
       prefs.setString('expires_in', decoded['expires_in'].toString());
+      print('sucesss');
     } else {
       throw Exception('Failed');
     }
