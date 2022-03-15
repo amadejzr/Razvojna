@@ -32,48 +32,54 @@ class _UsersScreenState extends State<UsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Scaffold(
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              print("Add user");
+            }),
+        body: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Column(
               children: <Widget>[
-                Expanded(child: _searchBar()),
-                MaterialButton(
-                  onPressed: () {
-                    RetrieveData().fetchUsers().then((value) {
-                      setState(() {
-                        users = <Users>[];
-                        display = <Users>[];
-                        loading = false;
-                        users.addAll(value);
-                        display = users;
-                      });
-                    });
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(child: _searchBar()),
+                    MaterialButton(
+                      onPressed: () {
+                        RetrieveData().fetchUsers().then((value) {
+                          setState(() {
+                            users = <Users>[];
+                            display = <Users>[];
+                            loading = false;
+                            users.addAll(value);
+                            display = users;
+                          });
+                        });
+                      },
+                      child: Icon(Icons.refresh),
+                    ),
+                  ],
+                ),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    if (!loading) {
+                      return _listItem(index);
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
                   },
-                  child: Icon(Icons.refresh),
+                  itemCount: display.length,
                 ),
               ],
             ),
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                if (!loading) {
-                  return _listItem(index);
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-              itemCount: display.length,
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   _searchBar() {
