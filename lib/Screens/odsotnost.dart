@@ -21,44 +21,54 @@ class _OdsotnostState extends State<Odsotnost> {
         appBar: AppBar(
           title: const Text("Odsotnost"),
         ),
-        body: Column(
-          children: <Widget>[
-            Text(widget.uid),
-            MaterialButton(
-              onPressed: () {
-                for (var item in widget.absDef) {
-                  if (item.name == widget.first) {
-                    print(widget.uid);
-                    print(item.id);
-                    print(item.name);
-                  }
-                }
-              },
-              color: Colors.black,
-            ),
-            DropdownButton(
-              // Initial Value
-              value: widget.first,
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                DropdownButton(
+                  // Initial Value
+                  value: widget.first,
 
-              // Down Arrow Icon
-              icon: const Icon(Icons.keyboard_arrow_down),
+                  // Down Arrow Icon
+                  icon: const Icon(Icons.keyboard_arrow_down),
 
-              // Array list of items
-              items: widget.absDef.map((var items) {
-                return DropdownMenuItem(
-                  value: items.name,
-                  child: Text(items.name!),
-                );
-              }).toList(),
-              // After selecting the desired option,it will
-              // change button value to selected value
-              onChanged: (String? newValue) {
-                setState(() {
-                  widget.first = newValue!;
-                });
-              },
+                  // Array list of items
+                  items: widget.absDef.map((var items) {
+                    return DropdownMenuItem(
+                      value: items.name,
+                      child: Text(items.name!),
+                    );
+                  }).toList(),
+                  // After selecting the desired option,it will
+                  // change button value to selected value
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      widget.first = newValue!;
+                    });
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(hintText: "Comment"),
+                ),
+                MaterialButton(
+                  onPressed: () {
+                    for (var item in widget.absDef) {
+                      if (item.name == widget.first) {
+                        RetrieveData().createAlbum(
+                            widget.uid,
+                            item.id.toString(),
+                            "hahah to je noro",
+                            DateTime.now(),
+                            DateTime.now());
+                      }
+                    }
+                  },
+                  color: Colors.black,
+                ),
+              ],
             ),
-          ],
+          ),
         ));
   }
 }

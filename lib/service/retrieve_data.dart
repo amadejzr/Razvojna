@@ -7,6 +7,8 @@ import 'package:razvojna/models/abs_def.dart';
 import 'package:razvojna/models/users.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/absence.dart';
+
 class RetrieveData {
   var urluser = Uri.parse('https://api4.allhours.com/api/v1/Users?userType=0');
 
@@ -71,7 +73,50 @@ class RetrieveData {
       throw Exception('Error requesting data');
     }
   }
+
+  Future<Absence> createAlbum(String userId, String absDefId, String comment,
+      DateTime from, DateTime to) async {
+    String token = await getToken();
+    final response = await http.post(
+      Uri.parse('https://api4.allhours.com/api/v1/Absences'),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': 'Bearer $token'
+      },
+      body: jsonEncode(<String, dynamic>{
+        'userId': userId,
+        "AbsenceDefinitionId": absDefId,
+        "Comment": comment,
+        "Timestamp": DateTime.now().toIso8601String(),
+        "PartialTimeFrom": from.toIso8601String(),
+        "PartialTimeTo": to.toIso8601String(),
+      }),
+    );
+    if (response.statusCode == 201) {
+      Fluttertoast.showToast(
+          msg: "Odsotnost dodana",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0);
+      return Absence.fromJson(jsonDecode(response.body));
+    } else {
+      Fluttertoast.showToast(
+          msg: "Error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0);
+      throw Exception('Failed to create album.');
+    }
+  }
 }
+
+
+
+
+
 
 
   /*Future<Users> fetchUsers() async {
