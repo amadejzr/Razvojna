@@ -17,28 +17,6 @@ class _UsersScreenState extends State<UsersScreen> {
   List<Users> display = <Users>[];
   bool loading = true;
 
-  /*@override
-  void initState() {
-    RetrieveData().fetchUsers().then((value) {
-      setState(() {
-        loading = false;
-        users.addAll(value);
-        display = users;
-      });
-    });
-
-    super.initState();
-  }
-
-
-
-   RetrieveData().fetchAbsDef().then((value) {
-        for (var item in value) {
-          absDef.add(item.name!);
-        }
-      }).whenComplete(() => print("HAHAH"));
-  */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,7 +104,6 @@ class _UsersScreenState extends State<UsersScreen> {
             ),
             MaterialButton(
               onPressed: () {
-                print(DateTime.now());
                 String id = display[index].id!;
                 List<AbsDef> absDef = <AbsDef>[];
 

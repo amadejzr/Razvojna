@@ -15,6 +15,8 @@ class Odsotnost extends StatefulWidget {
 }
 
 class _OdsotnostState extends State<Odsotnost> {
+  final TextEditingController commentController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +51,8 @@ class _OdsotnostState extends State<Odsotnost> {
                   },
                 ),
                 TextField(
-                  decoration: InputDecoration(hintText: "Comment"),
+                  controller: commentController,
+                  decoration: const InputDecoration(hintText: "Comment"),
                 ),
                 MaterialButton(
                   onPressed: () {
@@ -58,7 +61,7 @@ class _OdsotnostState extends State<Odsotnost> {
                         RetrieveData().createAlbum(
                             widget.uid,
                             item.id.toString(),
-                            "hahah to je noro",
+                            commentController.text,
                             DateTime.now(),
                             DateTime.now());
                       }
