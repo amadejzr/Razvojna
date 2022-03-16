@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:razvojna/models/abs_def.dart';
 import 'package:razvojna/models/users.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,6 +19,31 @@ class RetrieveData {
     final String accessToken = prefs.getString('access_token').toString();
 
     return accessToken;
+  }
+
+  List<AbsDef> parseAbsDef(String responseBody) {
+    var list = json.decode(responseBody) as List<dynamic>;
+    var absdef = list.map((model) => AbsDef.fromJson(model)).toList();
+    return absdef;
+  }
+
+  Future<List<AbsDef>> fetchAbsDef() async {
+    String token = await getToken();
+    final response = await http.get(urlAbsenceDef, headers: {
+      'authorization': 'Bearer $token',
+      'content-type': 'application/json'
+    });
+    if (response.statusCode == 200) {
+      return compute(parseAbsDef, response.body);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Invalid token",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0);
+      return <AbsDef>[];
+    }
   }
 
 //Users

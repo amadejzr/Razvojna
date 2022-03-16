@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:razvojna/Screens/odsotnost.dart';
+import 'package:razvojna/models/abs_def.dart';
 
 import 'package:razvojna/models/users.dart';
 import 'package:razvojna/service/retrieve_data.dart';
@@ -29,6 +29,14 @@ class _UsersScreenState extends State<UsersScreen> {
 
     super.initState();
   }
+
+
+
+   RetrieveData().fetchAbsDef().then((value) {
+        for (var item in value) {
+          absDef.add(item.name!);
+        }
+      }).whenComplete(() => print("HAHAH"));
   */
 
   @override
@@ -119,13 +127,27 @@ class _UsersScreenState extends State<UsersScreen> {
             MaterialButton(
               onPressed: () {
                 String id = display[index].id!;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Odsotnost(
-                            uid: id,
-                          )),
-                );
+                List<AbsDef> absDef = <AbsDef>[];
+
+                RetrieveData().fetchAbsDef().then((value) {
+                  for (var item in value) {
+                    absDef.add(item);
+                  }
+                }).whenComplete(() {
+                  if (absDef.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Odsotnost(
+                                uid: id,
+                                absDef: absDef,
+                                first: absDef.first.name!,
+                              )),
+                    );
+                  } else {
+                    print("Not valid token");
+                  }
+                });
               },
               child: const Text("Odsotnost"),
               color: Colors.blue,
