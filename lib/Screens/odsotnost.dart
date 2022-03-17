@@ -65,7 +65,6 @@ class _OdsotnostState extends State<Odsotnost> {
                       (DateRangePickerSelectionChangedArgs args) {
                     startDate = args.value.startDate.toString();
                     endDate = args.value.endDate.toString();
-                    print(startDate + " " + endDate);
                   },
                 ),
                 MaterialButton(
@@ -83,13 +82,15 @@ class _OdsotnostState extends State<Odsotnost> {
                       }
                       for (var item in widget.absDef) {
                         if (item.name == widget.first) {
-                          RetrieveData().createAlbum(
-                            widget.uid,
-                            item.id.toString(),
-                            commentController.text,
-                            DateTime.parse(startDate),
-                            DateTime.parse(endDate),
-                          );
+                          RetrieveData()
+                              .addAbsence(
+                                widget.uid,
+                                item.id.toString(),
+                                commentController.text,
+                                DateTime.parse(startDate),
+                                DateTime.parse(endDate),
+                              )
+                              .whenComplete(() => Navigator.pop(context));
                         }
                       }
                     }

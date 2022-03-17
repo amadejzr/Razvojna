@@ -36,7 +36,7 @@ class MainPage extends StatefulWidget {
       ), */
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
-  final screens = const [Settings(), UsersScreen(), Hehe()];
+  final screens = const [Settings(), UsersScreen(), Absences()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

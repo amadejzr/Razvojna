@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:razvojna/models/abs_def.dart';
+import 'package:razvojna/models/all_absences.dart';
 import 'package:razvojna/models/users.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,7 +75,7 @@ class RetrieveData {
     }
   }
 
-  Future<Absence> createAlbum(String userId, String absDefId, String comment,
+  Future<Absence> addAbsence(String userId, String absDefId, String comment,
       DateTime from, DateTime to) async {
     String token = await getToken();
     final response = await http.post(
@@ -111,13 +112,32 @@ class RetrieveData {
       throw Exception('Failed to create album.');
     }
   }
-}
 
+  List<AllAbsences> parseAllAbs(String responseBody) {
+    var list = json.decode(responseBody) as List<dynamic>;
+    var allabs = list.map((model) => AllAbsences.fromJson(model)).toList();
+    return allabs;
+  }
 
-
-
-
-
+  Future<List<AllAbsences>> fetchAllAbs() async {
+    String token = await getToken();
+    final response = await http
+        .get(Uri.parse("https://api4.allhours.com/api/v1/Absences"), headers: {
+      'authorization': 'Bearer $token',
+      'content-type': 'application/json'
+    });
+    if (response.statusCode == 200) {
+      return compute(parseAllAbs, response.body);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Invalid token",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0);
+      return <AllAbsences>[];
+    }
+  }
 
   /*Future<Users> fetchUsers() async {
     final response = await http.get(url, headers: requestHeaders);
@@ -149,4 +169,4 @@ class RetrieveData {
     });
     */
 
-
+}
