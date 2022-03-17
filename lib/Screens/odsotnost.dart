@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razvojna/models/abs_def.dart';
 import 'package:razvojna/service/retrieve_data.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class Odsotnost extends StatefulWidget {
   final String uid;
@@ -16,6 +18,8 @@ class Odsotnost extends StatefulWidget {
 
 class _OdsotnostState extends State<Odsotnost> {
   final TextEditingController commentController = TextEditingController();
+  DateRangePickerController _datePickerController = DateRangePickerController();
+  late String startDate = "", endDate = "";
 
   @override
   Widget build(BuildContext context) {
@@ -54,20 +58,44 @@ class _OdsotnostState extends State<Odsotnost> {
                   controller: commentController,
                   decoration: const InputDecoration(hintText: "Comment"),
                 ),
+                SfDateRangePicker(
+                  selectionMode: DateRangePickerSelectionMode.range,
+                  controller: _datePickerController,
+                  onSelectionChanged:
+                      (DateRangePickerSelectionChangedArgs args) {
+                    startDate = args.value.startDate.toString();
+                    endDate = args.value.endDate.toString();
+                    print(startDate + " " + endDate);
+                  },
+                ),
                 MaterialButton(
                   onPressed: () {
-                    for (var item in widget.absDef) {
-                      if (item.name == widget.first) {
-                        RetrieveData().createAlbum(
+                    if (startDate.isEmpty && endDate.isEmpty) {
+                      Fluttertoast.showToast(
+                          msg: "Choose dates",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          fontSize: 16.0);
+                    } else {
+                      if (endDate == "null") {
+                        endDate = startDate;
+                      }
+                      for (var item in widget.absDef) {
+                        if (item.name == widget.first) {
+                          RetrieveData().createAlbum(
                             widget.uid,
                             item.id.toString(),
                             commentController.text,
-                            DateTime.now(),
-                            DateTime.now());
+                            DateTime.parse(startDate),
+                            DateTime.parse(endDate),
+                          );
+                        }
                       }
                     }
                   },
-                  color: Colors.black,
+                  color: Colors.blue,
+                  child: const Text("Add absence"),
                 ),
               ],
             ),
