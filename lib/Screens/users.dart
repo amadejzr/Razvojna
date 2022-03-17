@@ -176,7 +176,16 @@ _showModalBottomSheet(context) {
                     height: 20,
                   ),
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      RetrieveData()
+                          .addUser(
+                              firstEditing.text.toString(),
+                              lastEditing.text.toString(),
+                              emailEditing.text.toString())
+                          .whenComplete(() {
+                        Navigator.pop(context);
+                      });
+                    },
                     color: Colors.blue,
                     child: const Text("Add user"),
                   )

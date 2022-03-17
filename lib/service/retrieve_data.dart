@@ -139,6 +139,40 @@ class RetrieveData {
     }
   }
 
+  Future<void> addUser(String firstName, String lastName, String email) async {
+    String token = await getToken();
+    final response = await http.post(
+      Uri.parse('https://api4.allhours.com/api/v1/Users'),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': 'Bearer $token'
+      },
+      body: jsonEncode(<String, dynamic>{
+        "FirstName": firstName,
+        "LastName": lastName,
+        "Email": email,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      Fluttertoast.showToast(
+          msg: "Odsotnost dodana",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0);
+      throw Exception('Failed to add user.');
+    }
+  }
+
   /*Future<Users> fetchUsers() async {
     final response = await http.get(url, headers: requestHeaders);
     var decoded = jsonDecode(response.body);
