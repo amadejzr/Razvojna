@@ -2,7 +2,7 @@
 
 Navodila.
 
-## Requirements
+## Potrebne stvari
 
 - zadnji flutter SDK. [Download](https://docs.flutter.dev/get-started/install?gclid=Cj0KCQjw29CRBhCUARIsAOboZbJrBi3_rX_aPGTTTFWLMTCofLzpTu_pKrynjIDd70ORgVXdvGOE3xoaAodFEALw_wcB&gclsrc=aw.ds),
 - Emulator ali priključena naprava.
@@ -15,7 +15,7 @@ Povleci zip file, extrahiraj. S terminalom pojdi v extrahirano mapo in poženi n
 - flutter pub get
 
 
-## Run modes
+## Zaženi aplikacijo
 
 ### debug
 -flutter run
@@ -23,7 +23,7 @@ Povleci zip file, extrahiraj. S terminalom pojdi v extrahirano mapo in poženi n
 ### release
 flutter run --release
 
-## Build app
+## Zgradi aplikacijo
 -IOS
 flutter build ipa
 
