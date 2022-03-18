@@ -1,16 +1,29 @@
-# razvojna
+# Razvojna naloga
 
-A new Flutter project.
+Navodila.
 
-## Getting Started
+## Requirements
 
-This project is a starting point for a Flutter application.
+- zadnji flutter SDK. [Download](https://docs.flutter.dev/get-started/install?gclid=Cj0KCQjw29CRBhCUARIsAOboZbJrBi3_rX_aPGTTTFWLMTCofLzpTu_pKrynjIDd70ORgVXdvGOE3xoaAodFEALw_wcB&gclsrc=aw.ds),
+- Emulator ali priključena naprava.
 
-A few resources to get you started if this is your first Flutter project:
+## Navodila
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Povleci zip file, extrahiraj. S terminalom pojdi v extrahirano mapo in poženi naslednje ukaze.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- cd Mapa
+- flutter pub get
+
+
+## Run modes
+
+### debug
+-flutter run
+
+### release
+flutter run --release
+
+## Build app
+flutter build ipa
+
+
