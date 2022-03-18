@@ -76,7 +76,7 @@ class _UsersScreenState extends State<UsersScreen> {
         text = text.toLowerCase();
         setState(() {
           display = users.where((element) {
-            var firstname = element.firstName!.toLowerCase();
+            var firstname = element.fullName!.toLowerCase();
             return firstname.contains(text);
           }).toList();
         });

@@ -52,13 +52,13 @@ class _AbsencesState extends State<Absences> {
                                 from = DateTime.parse(item.partialTimeFrom!);
                                 to = DateTime.parse(item.partialTimeTo!);
                                 selected = DateTime.parse(_selectedDate);
+
                                 if (from.isBefore(selected) &&
                                     to.isAfter(selected)) {
                                   absences.add(item);
                                 }
                               }
                             }
-                            setState(() {});
                           }).whenComplete(() {
                             setState(() {});
                             Navigator.pop(context);
