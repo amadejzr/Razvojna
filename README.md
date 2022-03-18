@@ -24,6 +24,9 @@ Povleci zip file, extrahiraj. S terminalom pojdi v extrahirano mapo in poženi n
 flutter run --release
 
 ## Build app
+-IOS
 flutter build ipa
 
+-Android
+flutter build apk
 
